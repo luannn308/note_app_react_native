@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textHeader: {
-    fontFamily: "Roboto condensed",
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",

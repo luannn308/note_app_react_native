@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native";
 
 const NoteList = () => {
   return (
@@ -13,14 +20,17 @@ const NoteList = () => {
         <Text style={styles.noteDate}>Ngày tháng ghi chú</Text>
         <View style={styles.line}></View>
       </View>
-      <Button style={styles.addButton} title="+ Mới" onPress={() => {}} />
+      <TouchableOpacity style={styles.addButton} underlayColor="#fff">
+        <Text style={styles.textButton}>Submit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
+export default NoteList;
+
 const styles = StyleSheet.create({
   textHeader: {
-    fontFamily: "Roboto condensed",
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
@@ -31,7 +41,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   noteTitle: {
-    fontFamily: "Roboto",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -53,10 +62,11 @@ const styles = StyleSheet.create({
   addButton: {
     backgroundColor: "#1E90FF",
     padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#1E90FF",
+    borderRadius: 24,
+    display: "flex",
+    justifyContent: "center",
+  },
+  textButton: {
+    textAlign: "center",
   },
 });
-
-export default NoteList;
