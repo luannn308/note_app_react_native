@@ -1,20 +1,11 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import NoteList from "./screens/NoteList/NoteList";
-import AddNote from "./screens/AddNote/AddNote";
-import EditNote from "./screens/EditNote/EditNote";
-import NoteSWM from "./screens/NoteSWM/NoteSWM";
+// Nguyễn Ngọc Luân - MSSV: 20521581
+import AppNavigation from "./src/AppNavigation";
+import { AuthProvider } from "./src/Context/AuthContext";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <NoteShare />
-    </View>
-  );
+    return (
+        <AuthProvider>
+            <AppNavigation />
+        </AuthProvider>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 24,
-  },
-});
