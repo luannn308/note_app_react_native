@@ -55,7 +55,7 @@ const UserProfile = ({ navigation }) => {
             style={styles.addAccountIcon}
             source={{
               uri: "https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/add-64.png",
-            }} // Thay đổi đường link ảnh icon thêm tài khoản
+            }}
           />
           <Text style={styles.addAccount}>Thêm tài khoản</Text>
         </TouchableOpacity>
