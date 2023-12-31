@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { getNoteByUser } from "../../Services/NoteService";
+import { AuthContext } from "../../Context/AuthContext";
+import { ScrollView } from "react-native-gesture-handler";
 
 const NoteList = ({ navigation }) => {
+    const [notes, setNotes] = useState([]);
+    const { token } = useContext(AuthContext);
+    useEffect(() => {
+        fetchNotes();
+    }, []);
+    const fetchNotes = async () => {
+        try {
+            const fetchedNotes = await getNoteByUser(token);
+
+            if (fetchedNotes) {
+                setNotes(fetchedNotes);
+            } else {
+                console.error("Error fetching notes.");
+            }
+        } catch (error) {
+            console.error("Error fetching notes:", error.message);
+        }
+    };
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.noteContainer}
-        onPress={() => navigation.navigate("EditNote")}
-      >
-        <Text style={styles.noteTitle}>
-          Hôm nay phải code xong màn hình danh sách
-        </Text>
-        <Text style={styles.noteContent}>Nội dung ghi chú</Text>
-        <Text style={styles.noteDate}>15/12/2023</Text>
-        <View style={styles.line}></View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.noteContainer}
-        onPress={() => navigation.navigate("EditNote")}
-      >
-        <Text style={styles.noteTitle}>Ngày 3 Tháng 1 Báo Cáo Di Động</Text>
-        <Text style={styles.noteContent}>Nội dung ghi chú</Text>
-        <Text style={styles.noteDate}>25/12/2023</Text>
-        <View style={styles.line}></View>
-      </TouchableOpacity>
+      <ScrollView>
+                {notes.map((note) => (
+                    <TouchableOpacity
+                        key={note._id}
+                        style={styles.noteContainer}
+                        onPress={() => navigation.navigate("EditNote", { noteId: note._id })}
+                    >
+                        <Text style={styles.noteTitle}>{note.title}</Text>
+                        <Text style={styles.noteContent}>{note.content}</Text>
+                        <Text style={styles.noteDate}>{note.createdAt}</Text>
+                        <View style={styles.line}></View>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
       <View style={styles.tabBarContainer}>
         <View style={styles.tabNewContainer}>
           <TouchableOpacity

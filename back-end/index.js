@@ -1,31 +1,23 @@
-// var http = require("http");
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const { connectDB } = require("./Database");
+var bodyParser = require("body-parser");
+const morgan = require("morgan");
 
-// var server = http.createServer(function (req, res) {
-//     res.statusCode = 205;
-//     res.end("<h1>Welcome</h1>");
-// });
+const userRouter = require("./routes/user");
+const noteRouter = require("./routes/note");
 
-// server.listen(3000, function () {
-//     console.log("Đang mở máy chủ: http://localhost:3000");
-// })
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(cors());
+app.use(morgan("common"));
 
-var express = require("express");
+app.use("/user", userRouter);
+app.use("/note", noteRouter);
 
-var app = express();
-
-// routes
-app.get("/hello", function (req, res) {
-    console.log(req.query);
-    var name = req.query.name;
-    res.send("Hello, " + name);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-app.post("/login", function (req, res) {
-    res.send("Login!");
-});
-app.post("/register", function (req, res) {
-    res.send("Register!");
-});
-// open server
-app.listen(3000, function () {
-    console.log("Server is connected");
-});
+
+connectDB();

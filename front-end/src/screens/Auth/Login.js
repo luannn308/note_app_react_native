@@ -1,33 +1,25 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import HyperLink from "../../Components/HyperLink";
 import SocialLogin from "../../Components/SocialLogin";
 import LogoSlogan from "../../Components/LogoSlogan";
+import { login } from "../../Services/AuthService";
 import { AuthContext } from "../../Context/AuthContext";
 
 const Login = ({ navigation }) => {
-    const { email, password, setIsAuthenticated } = useContext(AuthContext);
-    const [emailInput, setEmail] = useState("");
-    const [passwordInput, setPassword] = useState("");
+    const { setToken } = useContext(AuthContext);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const handleLogin = async () => {
-        if (
-            emailInput !== email ||
-            passwordInput !== password ||
-            emailInput === "" ||
-            passwordInput === ""
-        ) {
-            Alert.alert("Mật khẩu hoặc email không đúng ⚠️", "Vui lòng thử lại", [
-                {
-                    text: "OK",
-                    onPress: () => setIsAuthenticated(false),
-                },
-            ]);
-        } else {
-            console.log(emailInput, passwordInput);
-            setIsAuthenticated(true);
+        try {
+            const response = await login(username, password);
+            AsyncStorage.setItem("authToken", response.token);
+            setToken(response.token);
+        } catch (error) {
+            Alert.alert("Lỗi", "Tên người dùng hoặc mật khẩu không đúng");
         }
     };
-
     return (
         <View style={styles.container}>
             <LogoSlogan />
@@ -35,12 +27,12 @@ const Login = ({ navigation }) => {
                 <TextInput
                     placeholder="Email hoặc username"
                     style={styles.input}
-                    value={emailInput}
-                    onChangeText={setEmail}
+                    value={username}
+                    onChangeText={setUsername}
                 />
                 <TextInput
                     placeholder="Mật khẩu"
-                    value={passwordInput}
+                    value={password}
                     onChangeText={setPassword}
                     style={styles.input}
                     secureTextEntry={true}
