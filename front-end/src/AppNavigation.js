@@ -9,44 +9,43 @@ import { AuthContext } from "./Context/AuthContext";
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
-    const { token, setToken } = useContext(AuthContext);
-    const [isLoginChecked, setIsLoginChecked] = useState(false);
+  const { token, setToken } = useContext(AuthContext);
+  const [isLoginChecked, setIsLoginChecked] = useState(false);
 
-    useEffect(() => {
-        const checkLogin = async () => {
-            try {
-            } catch (error) {
-                console.error("Lỗi khi kiểm tra đăng nhập:", error);
-            } finally {
-                setIsLoginChecked(true);
-            }
-        };
-        checkLogin();
-    }, [setToken]);
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra đăng nhập:", error);
+      } finally {
+        setIsLoginChecked(true);
+      }
+    };
+    checkLogin();
+  }, [setToken]);
 
-    if (!isLoginChecked) {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
-
+  if (!isLoginChecked) {
     return (
-        <NavigationContainer>
-            <Stack.Navigator
-                screenOptions={{
-                    headerShown: false,
-                }}
-            >
-                {token !== null ? (
-                    <Stack.Screen name="Main" component={Nav} />
-                ) : (
-                    <Stack.Screen name="Auth" component={AuthStack} />
-                )}
-            </Stack.Navigator>
-        </NavigationContainer>
+      <View>
+        <Text>Loading...</Text>
+      </View>
     );
+  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        {token !== null ? (
+          <Stack.Screen name="Main" component={Nav} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthStack} />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default AppNavigation;

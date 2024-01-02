@@ -52,7 +52,7 @@ const EditNote = ({ navigation }) => {
             <Image
               style={styles.iconHeader}
               source={{
-                uri: "https://cdn0.iconfinder.com/data/icons/google-material-design-3-0/48/ic_note_add_48px-256.png",
+                uri: "https://cdn3.iconfinder.com/data/icons/feather-5/24/star-256.png",
               }}
             />
           </TouchableOpacity>

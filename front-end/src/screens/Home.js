@@ -71,6 +71,10 @@ const Home = ({ navigation }) => {
         return "";
     }
   };
+  const [importantNotes, setImportantNotes] = useState([
+    { id: 5, title: "Note 5", content: "Nội dung note 5" },
+    { id: 6, title: "Note 6", content: "Nội dung note 6" },
+  ]);
 
   return (
     <View style={styles.container}>
@@ -159,6 +163,29 @@ const Home = ({ navigation }) => {
           onChangeText={(text) => setDraftNote(text)}
         />
       </View>
+
+      {/* Note quan trọng */}
+      <View style={styles.content}>
+        <Text style={styles.goNotes}>Note quan trọng</Text>
+        <FlatList
+          data={importantNotes}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("NoteDetail", { note: item })}
+            >
+              <View style={styles.noteItemIPT}>
+                <Text style={styles.noteTitle}>{item.title}</Text>
+                <Text style={styles.noteContent} numberOfLines={1}>
+                  {item.content}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
     </View>
   );
 };
@@ -206,12 +233,10 @@ const styles = StyleSheet.create({
   },
   goNotes: {
     fontWeight: "bold",
-    textTransform: "uppercase",
     fontSize: 16,
   },
   goNotesRC: {
     fontWeight: "bold",
-    textTransform: "uppercase",
     fontSize: 16,
     paddingBottom: 12,
   },
@@ -242,12 +267,26 @@ const styles = StyleSheet.create({
   },
   draftInput: {
     borderWidth: 1,
-    borderColor: "#20B2AA",
-    backgroundColor: "#20B2AA",
+    borderColor: "#DFEBFF",
+    backgroundColor: "#DFEBFF",
     borderRadius: 8,
-    padding: 8,
+    paddingLeft: 20,
+    paddingTop: 16,
     marginTop: 8,
     minHeight: 100,
+    textAlignVertical: "top",
+  },
+  noteItemIPT: {
+    backgroundColor: "#F6FFBF",
+    borderRadius: 8,
+    padding: 16,
+    marginRight: 8,
+    width: 160,
+    shadowColor: "#1E90FF",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 2,
   },
 });
 

@@ -5,40 +5,56 @@ import { AuthContext } from "../../Context/AuthContext";
 import { ScrollView } from "react-native-gesture-handler";
 
 const NoteList = ({ navigation }) => {
-    const [notes, setNotes] = useState([]);
-    const { token } = useContext(AuthContext);
-    useEffect(() => {
-        fetchNotes();
-    }, []);
-    const fetchNotes = async () => {
-        try {
-            const fetchedNotes = await getNoteByUser(token);
+  const [notes, setNotes] = useState([]);
+  const { token } = useContext(AuthContext);
+  const fetchNotes = async () => {
+    try {
+      const fetchedNotes = await getNoteByUser(token);
 
-            if (fetchedNotes) {
-                setNotes(fetchedNotes);
-            } else {
-                console.error("Error fetching notes.");
-            }
-        } catch (error) {
-            console.error("Error fetching notes:", error.message);
-        }
+      if (fetchedNotes) {
+        setNotes(fetchedNotes);
+      } else {
+        console.error("Error fetching notes.");
+      }
+    } catch (error) {
+      console.error("Error fetching notes:", error.message);
+    }
+  };
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+  const formatDateTime = (isoDate) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZone: "UTC",
     };
+    return new Date(isoDate).toLocaleDateString("en-US", options);
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
-                {notes.map((note) => (
-                    <TouchableOpacity
-                        key={note._id}
-                        style={styles.noteContainer}
-                        onPress={() => navigation.navigate("EditNote", { noteId: note._id })}
-                    >
-                        <Text style={styles.noteTitle}>{note.title}</Text>
-                        <Text style={styles.noteContent}>{note.content}</Text>
-                        <Text style={styles.noteDate}>{note.createdAt}</Text>
-                        <View style={styles.line}></View>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
+        {notes.map((note) => (
+          <TouchableOpacity
+            key={note._id}
+            style={styles.noteContainer}
+            onPress={() =>
+              navigation.navigate("EditNote", { noteId: note._id })
+            }
+          >
+            <Text style={styles.noteTitle}>{note.title}</Text>
+            <Text style={styles.noteContent}>{note.content}</Text>
+            <Text style={styles.noteDate}>
+              {formatDateTime(note.createdAt)}
+            </Text>
+            <View style={styles.line}></View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
       <View style={styles.tabBarContainer}>
         <View style={styles.tabNewContainer}>
           <TouchableOpacity
@@ -76,14 +92,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   noteTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
-    paddingTop: 30,
+    paddingTop: 20,
   },
   noteContent: {
-    fontSize: 12,
-    paddingTop: 30,
-    paddingBottom: 30,
+    fontSize: 16,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   noteDate: {
     fontSize: 12,
