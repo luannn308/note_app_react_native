@@ -31,9 +31,18 @@ const noteSchema = new mongoose.Schema({
             ref: "User",
         },
     ],
+    important: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     username: {
         type: String,
         required: true,

@@ -50,6 +50,17 @@ const userController = {
             res.status(500).json({ message: "Đã xảy ra lỗi khi lấy người dùng." });
         }
     },
+    getUserByToken: async (req, res) => {
+        try {
+            const token = req.header("Authorization").replace("Bearer ", "");
+            const decoded = jwt.verify(token, "your-secret-key");
+            const userId = decoded.userId;
+            const user = await User.findOne({ _id: userId });
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(500).json(err);
+        }
+    },
 };
 
 module.exports = userController;

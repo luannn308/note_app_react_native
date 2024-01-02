@@ -10,4 +10,6 @@ router.get("/", noteController.getAllNotes);
 router.get("/user", noteController.getNotesByLoggedInUser);
 
 router.post("/share", noteController.shareNote);
+
+router.post("/edit", noteController.editNote);
 module.exports = router;

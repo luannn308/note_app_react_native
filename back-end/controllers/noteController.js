@@ -80,6 +80,41 @@ const noteController = {
             res.status(500).json({ message: "Đã xảy ra lỗi khi chia sẻ ghi chú." });
         }
     },
+    editNote: async (req, res) => {
+        try {
+            const token = req.header("Authorization").replace("Bearer ", "");
+            const decoded = jwt.verify(token, "your-secret-key");
+            const userId = decoded.userId;
+
+            const { noteId, title, content, imagePath, important } = req.body;
+
+            const userExists = await User.exists({ _id: userId });
+            if (!userExists) {
+                return res.status(404).json({ message: "Người dùng không tồn tại." });
+            }
+
+            const note = await Note.findOne({ _id: noteId, createdBy: userId });
+
+            if (!note) {
+                return res
+                    .status(404)
+                    .json({ message: "Ghi chú không tồn tại hoặc không thuộc về bạn." });
+            }
+
+            note.title = title;
+            note.content = content;
+            note.imagePath = imagePath;
+            note.important = important;
+            note.lastModified = Date.now();
+
+            const updatedNote = await note.save();
+
+            res.status(200).json(updatedNote);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: "Đã xảy ra lỗi khi chỉnh sửa ghi chú." });
+        }
+    },
 };
 
 module.exports = noteController;
