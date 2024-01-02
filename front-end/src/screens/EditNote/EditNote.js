@@ -56,6 +56,15 @@ const EditNote = ({ navigation }) => {
               }}
             />
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("Button pressed")}>
+            <Image
+              style={styles.iconHeader}
+              source={{
+                uri: "https://cdn1.iconfinder.com/data/icons/jumpicon-basic-ui-glyph-1/32/-_Trash-Can--64.png",
+              }}
+              tintColor="red"
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.contentContainer}>
