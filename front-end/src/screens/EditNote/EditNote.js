@@ -56,14 +56,6 @@ const EditNote = ({ navigation }) => {
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log("Button pressed")}>
-            <Image
-              style={styles.iconHeader}
-              source={{
-                uri: "https://cdn1.iconfinder.com/data/icons/bootstrap-vol-4/16/three-dots-256.png",
-              }}
-            />
-          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.contentContainer}>
@@ -78,23 +70,6 @@ const EditNote = ({ navigation }) => {
           placeholderTextColor="#D3D3D3"
           multiline
         />
-      </View>
-      <View style={styles.tabBarContainer}>
-        <View style={styles.tabEditContainer}>
-          <TouchableOpacity
-            style={styles.tabEdit}
-            onPress={() => navigation.navigate("Home")}
-          >
-            <Image
-              style={styles.iconTabEdit}
-              source={{
-                uri: "https://cdn0.iconfinder.com/data/icons/system-ui/154/compose-draw-edit-cursor-pencil-scribe-write-256.png",
-              }}
-              tintColor="rgba(255, 255, 255, 1.0)"
-            />
-            <Text style={styles.titleEdit}>LƯU</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -142,49 +117,6 @@ const styles = StyleSheet.create({
   },
   input: {
     color: "black",
-  },
-  tabBarContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: "100%",
-    height: 40,
-    paddingVertical: 12,
-    backgroundColor: "#fff", // Đặt màu nền của tabBarContainer (tuỳ chọn)
-  },
-
-  tabEditContainer: {
-    position: "absolute",
-    top: "-120%",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  tabEdit: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#1E90FF",
-    width: 100,
-    padding: 10,
-    borderRadius: 24,
-  },
-  iconTabEdit: {
-    width: 12,
-    height: 12,
-  },
-  titleEdit: {
-    fontSize: 10,
-    fontWeight: "bold",
-    paddingLeft: 8,
-    color: "white",
   },
 });
 

@@ -9,6 +9,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -16,7 +17,7 @@ const Home = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
   const [draftNote, setDraftNote] = useState(""); // Giấy nháp
   const [recentNotes, setRecentNotes] = useState([
-    { id: 1, title: "Note 1", content: "Nội dung note 1" },
+    { id: 1, title: "Note 1 numberOfLines={1}", content: "Nội dung note 1" },
     { id: 2, title: "Note 2", content: "Nội dung note 2" },
     { id: 3, title: "Note 3", content: "Nội dung note 3" },
     { id: 4, title: "Note 4", content: "Nội dung note 4" },
@@ -73,7 +74,11 @@ const Home = ({ navigation }) => {
   };
   const [importantNotes, setImportantNotes] = useState([
     { id: 5, title: "Note 5", content: "Nội dung note 5" },
-    { id: 6, title: "Note 6", content: "Nội dung note 6" },
+    {
+      id: 6,
+      title: "Note 6 ",
+      content: "Nội dung note 6 Nội dung note 6Nội dung note 6Nội dung note 6",
+    },
   ]);
 
   return (
@@ -86,22 +91,12 @@ const Home = ({ navigation }) => {
         style={styles.image}
       >
         <View style={styles.opacityNight}>
-          <TouchableOpacity style={styles.btnEditHome}>
-            <Image
-              source={{
-                uri: "https://cdn4.iconfinder.com/data/icons/edit-glyph/64/edit-home-house-estate-512.png",
-              }}
-              style={styles.editHomeIcon}
-              tintColor="rgba(255, 255, 255,1)"
-            />
-          </TouchableOpacity>
           <Text style={styles.title}>
             {currentGreeting(hours)}, Luân Nguyễn!
           </Text>
           <Text style={[styles.textDateTime, styles.text]}>{currentDate}</Text>
         </View>
       </ImageBackground>
-
       <View
         style={[
           styles.content,
@@ -113,7 +108,7 @@ const Home = ({ navigation }) => {
           style={styles.flexRow}
           onPress={() => navigation.navigate({ name: "Ghi chú" })}
         >
-          <Text style={styles.goNotes}>Ghi chú</Text>
+          <Text style={[styles.goNotes, { paddingBottom: 0 }]}>Ghi chú</Text>
           <Ionicons name="ios-arrow-forward" color="#1E90FF" size={24} />
         </TouchableOpacity>
         <TouchableOpacity
@@ -128,64 +123,73 @@ const Home = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
+      <ScrollView>
+        {/* Note gần đây */}
+        <View style={styles.content}>
+          <Text style={styles.goNotes}>Note gần đây</Text>
+          <FlatList
+            data={recentNotes}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("NoteDetail", { note: item })
+                }
+              >
+                <View style={styles.noteItem}>
+                  <Text style={styles.noteTitle} numberOfLines={1}>
+                    {item.title}
+                  </Text>
+                  <Text style={styles.noteContent} numberOfLines={2}>
+                    {item.content}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
 
-      {/* Note gần đây */}
-      <View style={styles.content}>
-        <Text style={styles.goNotesRC}>Note gần đây</Text>
-        <FlatList
-          data={recentNotes}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("NoteDetail", { note: item })}
-            >
-              <View style={styles.noteItem}>
-                <Text style={styles.noteTitle}>{item.title}</Text>
-                <Text style={styles.noteContent} numberOfLines={1}>
-                  {item.content}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+        {/* Phần "Giấy nháp" */}
+        <View style={styles.content}>
+          <Text style={styles.goNotes}>Giấy nháp</Text>
+          <TextInput
+            style={styles.draftInput}
+            multiline
+            placeholder="Nhập nội dung nháp..."
+            value={draftNote}
+            onChangeText={(text) => setDraftNote(text)}
+          />
+        </View>
 
-      {/* Phần "Giấy nháp" */}
-      <View style={styles.content}>
-        <Text style={styles.goNotes}>Giấy nháp</Text>
-        <TextInput
-          style={styles.draftInput}
-          multiline
-          placeholder="Nhập nội dung nháp..."
-          value={draftNote}
-          onChangeText={(text) => setDraftNote(text)}
-        />
-      </View>
-
-      {/* Note quan trọng */}
-      <View style={styles.content}>
-        <Text style={styles.goNotes}>Note quan trọng</Text>
-        <FlatList
-          data={importantNotes}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("NoteDetail", { note: item })}
-            >
-              <View style={styles.noteItemIPT}>
-                <Text style={styles.noteTitle}>{item.title}</Text>
-                <Text style={styles.noteContent} numberOfLines={1}>
-                  {item.content}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+        {/* Note quan trọng */}
+        <View style={styles.content}>
+          <Text style={styles.goNotes}>Note quan trọng</Text>
+          <FlatList
+            data={importantNotes}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("NoteDetail", { note: item })
+                }
+              >
+                <View style={[styles.noteItem, styles.noteItemIPT]}>
+                  <Text style={styles.noteTitle} numberOfLines={1}>
+                    {item.title}
+                  </Text>
+                  <Text style={styles.noteContent} numberOfLines={2}>
+                    {item.content}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -198,15 +202,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  btnEditHome: {
-    flexDirection: "row-reverse",
-    marginBottom: 16,
-  },
   opacityNight: {
     backgroundColor: "rgba(0, 0, 0,0.4)",
     paddingHorizontal: 16,
     paddingBottom: 32,
-    paddingTop: 16,
+    paddingTop: 56,
   },
   image: {
     backgroundColor: "black",
@@ -234,10 +234,6 @@ const styles = StyleSheet.create({
   goNotes: {
     fontWeight: "bold",
     fontSize: 16,
-  },
-  goNotesRC: {
-    fontWeight: "bold",
-    fontSize: 16,
     paddingBottom: 12,
   },
   imageIcon: {
@@ -250,6 +246,8 @@ const styles = StyleSheet.create({
     padding: 16,
     marginRight: 8,
     width: 160,
+    height: 100,
+    maxHeight: 100,
     shadowColor: "#1E90FF",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1,
@@ -272,21 +270,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingLeft: 20,
     paddingTop: 16,
-    marginTop: 8,
     minHeight: 100,
     textAlignVertical: "top",
   },
   noteItemIPT: {
     backgroundColor: "#F6FFBF",
-    borderRadius: 8,
-    padding: 16,
-    marginRight: 8,
-    width: 160,
-    shadowColor: "#1E90FF",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 2,
   },
 });
 

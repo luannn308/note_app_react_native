@@ -37,15 +37,16 @@ const AddNote = ({ navigation }) => {
             <Image
               style={styles.iconHeader}
               source={{
-                uri: "https://cdn3.iconfinder.com/data/icons/feather-5/24/star-256.png",
+                uri: "https://cdn0.iconfinder.com/data/icons/spreadsheet-charts-comments-edits-attachments/49/slice418-256.png",
               }}
+              tintColor={"black"}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log("Button pressed")}>
             <Image
               style={styles.iconHeader}
               source={{
-                uri: "https://cdn1.iconfinder.com/data/icons/bootstrap-vol-4/16/three-dots-256.png",
+                uri: "https://cdn3.iconfinder.com/data/icons/feather-5/24/star-256.png",
               }}
             />
           </TouchableOpacity>
@@ -76,21 +77,13 @@ const AddNote = ({ navigation }) => {
             <Image
               style={styles.iconTabEdit}
               source={{
-                uri: "https://cdn0.iconfinder.com/data/icons/system-ui/154/compose-draw-edit-cursor-pencil-scribe-write-256.png",
+                uri: "https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/512/Tick_Mark-256.png",
               }}
               tintColor="rgba(255, 255, 255, 1.0)"
             />
             <Text style={styles.titleEdit}>XONG</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => console.log("Button pressed")}>
-          <Image
-            style={styles.iconTabBar}
-            source={{
-              uri: "https://cdn1.iconfinder.com/data/icons/jumpicon-basic-ui-glyph-1/32/-_Magnifier-Search-Zoom--256.png",
-            }}
-          />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -162,7 +155,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2F4F4F",
+    backgroundColor: "#1E90FF",
     width: 100,
     padding: 10,
     borderRadius: 24,
