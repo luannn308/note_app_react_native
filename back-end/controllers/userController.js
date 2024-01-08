@@ -61,6 +61,19 @@ const userController = {
             res.status(500).json(err);
         }
     },
+    getById: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const user = await User.findOne({ _id: id });
+            if (!user) {
+                return res.status(404).json({ message: "Không tìm user này." });
+            }
+            res.status(200).json(user);
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).json({ message: "Đã xảy ra lỗi khi lấy note" });
+        }
+    },
 };
 
 module.exports = userController;

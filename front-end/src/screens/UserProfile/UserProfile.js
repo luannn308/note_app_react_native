@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { AuthContext } from "../../Context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserDetail } from "../../Services/UserService";
 
 const UserProfile = ({ navigation }) => {
-    const { setToken } = useContext(AuthContext);
+    const { token, setToken } = useContext(AuthContext);
     const [userDetail, setUserDetail] = useState({});
 
     const SignOut = async () => {
@@ -28,6 +28,9 @@ const UserProfile = ({ navigation }) => {
             console.error("Error fetching notes:", error.message);
         }
     };
+    useEffect(() => {
+        getUser();
+    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.userInfoContainer}>
@@ -39,23 +42,11 @@ const UserProfile = ({ navigation }) => {
                 />
                 <View style={styles.info}>
                     <Text style={styles.userName}>{userDetail.name}</Text>
-                    <Text style={styles.usageInfo}>Đã dùng 500MB trong số 1GB</Text>
+                    <Text style={styles.usageInfo}>@{userDetail.email}</Text>
                 </View>
             </View>
 
             <View style={styles.actionButtonsContainer}>
-                <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => console.log("Thiết bị pressed")}
-                >
-                    <Image
-                        style={styles.iconAction}
-                        source={{
-                            uri: "https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/phone-256.png",
-                        }}
-                    />
-                    <Text>Thiết bị</Text>
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.actionButton} onPress={SignOut}>
                     <Image
                         style={styles.iconAction}

@@ -9,7 +9,16 @@ router.get("/", noteController.getAllNotes);
 
 router.get("/user", noteController.getNotesByLoggedInUser);
 
+router.get("/share/list", noteController.getSharedNotesByLoggedInUser);
+
 router.post("/share", noteController.shareNote);
 
 router.post("/edit", noteController.editNote);
+
+router.get("/:id", noteController.getById);
+
+router.delete("/:id", noteController.deleteNote);
+
+router.get("/search/:query", noteController.searchNotes);
+
 module.exports = router;

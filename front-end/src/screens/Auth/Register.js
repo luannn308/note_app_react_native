@@ -39,7 +39,12 @@ const Register = ({ navigation }) => {
                     password: password,
                 };
                 const response = await register(userNew);
-                navigation.navigate("Login");
+                Alert.alert("Đăng ký thành công", "Bạn đã đăng ký tài khoản thành công", [
+                    {
+                        text: "OK",
+                        onPress: () => navigation.navigate("Login"),
+                    },
+                ]);
             }
         } catch (error) {
             Alert.alert("Lỗi", error);

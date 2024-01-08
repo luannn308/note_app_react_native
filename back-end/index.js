@@ -10,7 +10,9 @@ const noteRouter = require("./routes/note");
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
+
 app.use(morgan("common"));
+app.options("*", cors());
 
 app.use("/user", userRouter);
 app.use("/note", noteRouter);

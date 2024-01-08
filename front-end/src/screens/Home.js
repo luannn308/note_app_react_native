@@ -11,7 +11,7 @@ import {
     TextInput,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { useFocusEffect } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { getUserDetail } from "../Services/UserService";
 import { AuthContext } from "../Context/AuthContext";
@@ -61,7 +61,11 @@ const Home = ({ navigation }) => {
         getUser();
         fetchNotes();
     }, []);
-
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchNotes();
+        }, [])
+    );
     const currentGreeting = (current_hours) => {
         if (current_hours >= 5 && current_hours < 12) {
             return "Xin chào buổi sáng";
@@ -102,10 +106,14 @@ const Home = ({ navigation }) => {
         const latestFourNotes = sortedNotes.slice(0, 4);
         return latestFourNotes;
     };
-    const [importantNotes, setImportantNotes] = useState([
-        { id: 5, title: "Note 5", content: "Nội dung note 5" },
-        { id: 6, title: "Note 6", content: "Nội dung note 6" },
-    ]);
+    const getNotesImportant = (notes) => {
+        if (!Array.isArray(notes)) {
+            console.error("Invalid input. Please provide an array of notes.");
+            return [];
+        }
+        const importantNotes = notes.filter((item) => item.important === true);
+        return importantNotes;
+    };
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -151,7 +159,9 @@ const Home = ({ navigation }) => {
                         keyExtractor={(item) => item._id.toString()}
                         renderItem={({ item }) => (
                             <TouchableOpacity
-                                onPress={() => navigation.navigate("NoteDetail", { note: item })}
+                                onPress={() =>
+                                    navigation.navigate("EditNote", { noteId: item._id })
+                                }
                             >
                                 <View style={styles.noteItem}>
                                     <Text style={styles.noteTitle} numberOfLines={1}>
@@ -182,11 +192,13 @@ const Home = ({ navigation }) => {
                 <View style={styles.content}>
                     <Text style={styles.goNotes}>Note quan trọng</Text>
                     <FlatList
-                        data={importantNotes}
-                        keyExtractor={(item) => item.id.toString()}
+                        data={getNotesImportant(notes)}
+                        keyExtractor={(item) => item._id.toString()}
                         renderItem={({ item }) => (
                             <TouchableOpacity
-                                onPress={() => navigation.navigate("NoteDetail", { note: item })}
+                                onPress={() =>
+                                    navigation.navigate("EditNote", { noteId: item._id })
+                                }
                             >
                                 <View style={[styles.noteItem, styles.noteItemIPT]}>
                                     <Text style={styles.noteTitle} numberOfLines={1}>
